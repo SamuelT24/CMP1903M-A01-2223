@@ -10,7 +10,11 @@ namespace CMP1903M_A01_2223
     {
         static void Main(string[] args)
         {
-
+            Console.WriteLine("Press ENTER to begin testing.");
+            Console.ReadLine();
+            Testing.Test();
+            Console.WriteLine("Press ENTER to exit testing.");
+            Console.ReadLine();
         }
     }
 }
