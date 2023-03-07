@@ -21,7 +21,7 @@ namespace CMP1903M_A01_2223
                 Console.WriteLine(card.name);
             }
 
-            List<string> shuffles = new List<string> { "Fisher-Yates Shuffle", "Riffle Shuffle", "No-Shuffle" };
+            List<string> shuffles = new List<string> { "Fisher-Yates Shuffle", "Riffle Shuffle", "No-Shuffle" }; // No-Shuffle should always be last if new ones are added.
 
             for (int i = 1; i <= shuffles.Count; i++) // Test each shuffle.
             {
@@ -31,20 +31,42 @@ namespace CMP1903M_A01_2223
                 Console.WriteLine($"Testing shuffle {i}.");
                 if (testingPack.shuffleCardPack(i))
                 {
-                    Console.WriteLine($"{shuffles[i-1]} completed successfully.");
+                    if (i == shuffles.Count)
+                    {
+                        Console.WriteLine($"{shuffles[i-1]} should not return true!"); // This shouldn't happen, unless the information above was not followed.
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{shuffles[i - 1]} completed successfully.");
+                    }
                     drawFromShuffledPack();
                 }
                 else
                 {
-                    Console.WriteLine($"Shuffle {i} was declared invalid. Something is wrong.");
+                    if (i == shuffles.Count)
+                    {
+                        Console.WriteLine($"{shuffles[i - 1]} successfully returned false."); // No shuffle happens, so it should return false.
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Shuffle {i} was declared invalid. Something is wrong.");
+                    }
                 }
             }
 
-            // Now, let's try doing an invalid shuffle method. The function should return false.
-            Console.WriteLine("Press ENTER test an invalid shuffle. The line below after you press ENTER should say 'False'.");
+            // Now, let's try doing an invalid shuffle method. The function should throw an ArgumentException.
+            Console.WriteLine("Press ENTER test an invalid shuffle. This should throw an ArgumentException.");
             Console.ReadLine();
 
-            Console.WriteLine(testingPack.shuffleCardPack(shuffles.Count + 1));
+            try
+            {
+                testingPack.shuffleCardPack(shuffles.Count + 1);
+                Console.WriteLine("The invalid shuffle did not raise an exception...");
+            }
+            catch (ArgumentException)
+            {
+                Console.WriteLine("The invalid shuffle threw an ArgumentException successfully.");
+            }
             // Excellent! If we made it here with no issues, the program is fully functional.
             Console.WriteLine("Testing complete!");
 

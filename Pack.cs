@@ -25,25 +25,37 @@ namespace CMP1903M_A01_2223
             // Shuffles the pack based on the type of shuffle.
             if (typeOfShuffle == 1)
             { // Fisher-Yates Shuffle
-                Console.WriteLine("Not implemented.");
+                var random = new Random();
+                for (int i = pack.Count; i > 1; i--)
+                {
+                    int swapWith = random.Next(i - 1); // Random index between 0 and the current index
+                    if (swapWith != i-1) // If the chosen index is the same as the current index, do nothing.
+                    {
+                        // Store both values, then swap them in the list.
+                        Card firstIndexItem = pack[swapWith];
+                        Card lastIndexItem = pack[i-1];
+
+                        pack[swapWith] = lastIndexItem;
+                        pack[i-1] = firstIndexItem;
+                    }
+                }
             }
             else if (typeOfShuffle == 2)
             { // Riffle Shuffle
-                Console.WriteLine("Not implemented.");
+                Console.WriteLine("Not implemented."); // Just this left!
             }
             else
             {
                 if (typeOfShuffle == 3)
                 {
-                    return true; // No-Shuffle, do nothing, just confirm it's valid.
+                    return false; // No shuffle happened, but it's valid.
                 }
                 else
                 {
-                    return false; // Invalid shuffle!
+                    throw new ArgumentException("Invalid shuffle was specified."); // Invalid shuffle! Raise an exception.
                 }
             }
             return true;
-            // Stub, just putting this here so the program can actually run. This is all that's left to finish.
         }
         public Card deal()
         {
