@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CMP1903M_A01_2223
 {
@@ -13,8 +11,8 @@ namespace CMP1903M_A01_2223
         // Value: numbers 1 - 13
         private int value;
         // Suit: numbers 1 - 4
-        private int suit;
-        // Name: user friendly name, public, TESTING/DEBUGGING PURPOSES ONLY
+        private Suits suit;
+        // Name: user friendly name, public.
         public string name;
         // Validation is in place to prevent invalid cards.
 
@@ -28,7 +26,7 @@ namespace CMP1903M_A01_2223
             }
         }
 
-        public int Suit
+        public Suits Suit
         {
             get {
                 return Suit; // Returns the suit of the card.
@@ -38,26 +36,43 @@ namespace CMP1903M_A01_2223
             }
         }
 
+        // Encapsulated user friendly names for use later
+        private static List<string> cardNames = new List<string> { "Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King" };
+        public static int numCardNames = cardNames.Count; // This is public though! This value is very important for utilising the pack.
+
         public Card(int value, int suit)
         {
-            if (value > 0 ^ value < 14 ^ suit > 0 ^ suit < 5) // Validation to prevent invalid cards.
+            if (value < 0 || value > numCardNames) // Validation to prevent cards with invalid values (the Suits class has its own validation).
             {
-                throw new ArgumentException("Attempted to initialise an invalid card."); // Invalid card? Get lost!
+                throw new ArgumentException("Attempted to initialise a card with an invalid value."); // Invalid card? Get lost!
             }
 
             // Not invalid? Fantastic. Set the values.
             this.value = value;
-            this.suit = suit;
+            Suits s = new Suits(suit);
+            this.suit = s;
 
-            // Now for a user friendly name, mostly for testing and debugging purposes.
-            List<string> cardNames = new List<string> { "Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King" };
-            List<string> suitNames = new List<string> { "Hearts", "Diamonds", "Clubs", "Spades" };
-            string friendlyCardName = cardNames[value - 1];
-            string friendlySuitName = suitNames[suit - 1];
+            // Now for a user friendly name.
+            this.name = getCardName(value, s);
+        }
 
+        private string getCardName(int v, Suits s) // Encapsulated setCardName function, was not part of the base code.
+        {
+            // Gives the card a user friendly name based on the value and suit.
+            string friendlyCardName = "";
+            try
+            {
+                friendlyCardName = cardNames[v - 1];
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine($"Warning! Specified Card value {v} has no name."); // This.. shouldn't happen. But just in case someone does an oopsie...
+                friendlyCardName = "Undefined";
+            }
+            string friendlySuitName = s.name;
+            string friendlyName = $"{friendlyCardName} of {friendlySuitName}"; // Combine the value name and suit together for a full user friendly name.
+            return friendlyName;
 
-            this.name = friendlyCardName + " of " + friendlySuitName; // Doing this value in the same format and value and suit but as a string just threw a StackOverflow exception.
-            // It's just for debugging anyway, so it's not important.
         }
     }
 }
