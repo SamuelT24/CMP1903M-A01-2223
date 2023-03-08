@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CMP1903M_A01_2223
@@ -25,6 +25,11 @@ namespace CMP1903M_A01_2223
             // Shuffles the pack based on the type of shuffle.
             if (typeOfShuffle == 1)
             { // Fisher-Yates Shuffle
+                if (pack.Count < 2):
+                {
+                    Console.WriteLine("Cannot do a Fisher-Yates Shuffle with less than 2 cards.");
+                    return false;
+                }
                 var random = new Random();
                 for (int i = pack.Count; i > 1; i--)
                 {
@@ -43,6 +48,11 @@ namespace CMP1903M_A01_2223
             else if (typeOfShuffle == 2)
             { // Riffle Shuffle - it's recommended to do this one multiple times or do a Fisher-Yates Shuffle instead.
                 // This seems awkward - but we must be prepared for any number of cards, since cards can be added and removed.
+                if (pack.Count < 2):
+                {
+                    Console.WriteLine("Cannot do a Riffle Shuffle with less than 2 cards.");
+                    return false;
+                }
                 int halfIndex = pack.Count / 2;
                 // Split the pack into two halves.
                 List<Card> firstHalf = pack.GetRange(0, halfIndex);
