@@ -41,14 +41,25 @@ namespace CMP1903M_A01_2223
                 }
             }
             else if (typeOfShuffle == 2)
-            { // Riffle Shuffle
-                Console.WriteLine("Not implemented."); // Just this left!
+            { // Riffle Shuffle - it's recommended to do this one multiple times or do a Fisher-Yates Shuffle instead.
+                // This seems awkward - but we must be prepared for any number of cards, since cards can be added and removed.
+                int halfIndex = pack.Count / 2;
+                // Split the pack into two halves.
+                List<Card> firstHalf = pack.GetRange(0, halfIndex);
+                List<Card> secondHalf = pack.GetRange(halfIndex, pack.Count - halfIndex);
+
+                for (int i = 0; i < halfIndex; i+=2)
+                {
+                    // Add a card from each half back to the pack, one after the other.
+                    pack[i] = firstHalf[i];
+                    pack[i+1] = secondHalf[i];
+                }
             }
             else
             {
                 if (typeOfShuffle == 3)
                 {
-                    return false; // No shuffle happened, but it's valid.
+                    return false; // No shuffle happened, but it's valid, return false to say the deck is unchanged.
                 }
                 else
                 {
@@ -113,7 +124,7 @@ namespace CMP1903M_A01_2223
                 pack.Add(card);
                 return true;
             }
-            catch
+            catch (Exception)
             {
                 return false;
             }
