@@ -25,7 +25,7 @@ namespace CMP1903M_A01_2223
             // Shuffles the pack based on the type of shuffle.
             if (typeOfShuffle == 1)
             { // Fisher-Yates Shuffle
-                if (pack.Count < 2):
+                if (pack.Count < 2)
                 {
                     Console.WriteLine("Cannot do a Fisher-Yates Shuffle with less than 2 cards.");
                     return false;
@@ -48,7 +48,7 @@ namespace CMP1903M_A01_2223
             else if (typeOfShuffle == 2)
             { // Riffle Shuffle - it's recommended to do this one multiple times or do a Fisher-Yates Shuffle instead.
                 // This seems awkward - but we must be prepared for any number of cards, since cards can be added and removed.
-                if (pack.Count < 2):
+                if (pack.Count < 2)
                 {
                     Console.WriteLine("Cannot do a Riffle Shuffle with less than 2 cards.");
                     return false;
@@ -81,6 +81,10 @@ namespace CMP1903M_A01_2223
         public Card deal()
         {
             // Deals one card.
+            if (pack.Count < 1)
+            {
+                throw new Exception("Cannot deal card from an empty pack.");
+            }
             var random = new Random();
             int randomCardIndex = random.Next(pack.Count);
             return pack[randomCardIndex];
