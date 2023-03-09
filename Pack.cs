@@ -85,9 +85,7 @@ namespace CMP1903M_A01_2223
             {
                 throw new Exception("Cannot deal card from an empty pack.");
             }
-            var random = new Random();
-            int randomCardIndex = random.Next(pack.Count);
-            return pack[randomCardIndex];
+            return pack[0]; // Pick the card at the top of the pack.
 
         }
 
@@ -102,27 +100,10 @@ namespace CMP1903M_A01_2223
             {
                 throw new ArgumentException("Attempted to deal more cards than what was in the deck."); // Can only deal what's in the deck!
             }
-            var random = new Random();
             List<Card> chosenCards = new List<Card>();
-            List<int> previousIndexes = new List<int>();
-            for (int i = 0; i < amount; i++) // Keep drawing a random card until the requested amount has been met.
+            for (int i = 0; i < amount; i++) // Keep drawing a card until the requested amount has been met.
             {
-                bool invalidCardIndex = true;
-                int randomCardIndex = random.Next(pack.Count);
-                while (invalidCardIndex) // Check to make sure we don't draw more than one of the same card, there's no duplicates in this deck!
-                {
-                    if (previousIndexes.Contains(randomCardIndex))
-                    {
-                        randomCardIndex = random.Next(pack.Count);
-                    }
-                    else
-                    {
-                        invalidCardIndex = false;
-                    }
-                }
-                // Now to add it to the previous indexes as part of the check above, then add it to the list of chosen cards.
-                previousIndexes.Add(randomCardIndex);
-                chosenCards.Add(pack[randomCardIndex]);
+                chosenCards.Add(pack[i]);
             }
 
             return chosenCards;
